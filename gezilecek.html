@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ankara'da Gezilecek Yerler</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f8f9fa;
+      color: #333;
+    }
+
+    /* Dark Mode */
+    .dark-mode {
+      background: #1a1a1a;
+      color: #fff;
+    }
+    .dark-mode .navbar-custom {
+      background: #2d2d2d;
+    }
+    .dark-mode .place-card {
+      background: #2d2d2d;
+      color: #fff;
+    }
+    .dark-mode .place-card h3,
+    .dark-mode .place-card p {
+      color: #fff;
+    }
+
+   /* Navbar */
+   .navbar-custom {
+      background: linear-gradient(45deg, #2c3e50, #34495e);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: background 0.5s ease;
+    }
+    .navbar-brand img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .navbar-custom:hover {
+      background: linear-gradient(45deg, #34495e, #2c3e50);
+    }
+
+    .navbar-custom .nav-link {
+      color: #fff !important;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .navbar-custom .nav-link:hover {
+      color: #1abc9c !important;
+      transform: translateY(-2px);
+    }
+
+    .navbar-custom .dropdown-menu {
+      background: rgba(44, 62, 80, 0.9);
+      border: none;
+    }
+
+    .navbar-custom .dropdown-item {
+      color: #fff;
+      transition: background 0.3s ease;
+    }
+
+    .navbar-custom .dropdown-item:hover {
+      background: #1abc9c;
+      color: #fff;
+    }
+
+    .navbar-custom .btn-outline-light {
+      border-color: #fff;
+      color: #fff;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .navbar-custom .btn-outline-light:hover {
+      background: #1abc9c;
+      border-color: #1abc9c;
+      color: #fff;
+    }
+
+    /* Gezilecek Yerler Kartları */
+    .place-card {
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+      margin-bottom: 20px;
+    }
+
+    .place-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .place-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .place-card .card-content {
+      padding: 15px;
+    }
+
+    .place-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+
+    .place-card p {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .place-card .favorite-btn {
+      background: none;
+      border: none;
+      color: #ff3b30;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: color 0.3s;
+    }
+
+    .place-card .favorite-btn.active {
+      color: #ff3b30;
+    }
+
+    .place-card .favorite-btn:hover {
+      color: #ff1a1a;
+    }
+
+    /* Footer */
+    .custom-footer {
+      background: #2c3e50;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    /* Scroll-to-Top Butonu */
+    .scroll-top {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #1abc9c;
+      color: #fff;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .scroll-top.show {
+      opacity: 1;
+    }
+
+    /* Arama Çubuğu */
+    .search-bar {
+      margin-left: auto;
+      margin-right: 20px;
+    }
+
+    .search-bar input {
+      border-radius: 20px;
+      padding: 5px 15px;
+      border: 1px solid #ccc;
+      width: 200px;
+    }
+
+    /* Canlı Saat ve Tarih */
+    .live-clock {
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 25px;
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 1.1rem;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Bildirim Kutusu */
+    .notification {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: #1abc9c;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 25px;
+      z-index: 1000;
+      display: none;
+    }
+
+    /* Main Container */
+    .main-container {
+      padding-top: 80px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+    <div class="container">
+      <a class="navbar-brand text-white" href="index.html">
+        <img src="logo.jpg" alt="Ankara Logo">
+        <span style="font-weight: bold;">ANKARA</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link text-white" href="tarih.html">Tarih</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="gezilecek.html">Gezilecek Yerler</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="index.html">Ana Sayfa</a></li>
+        </ul>
+        <form class="d-flex ms-3" id="search-form">
+          <input class="form-control me-2 rounded-pill" type="search" id="search-input" placeholder="Ara" aria-label="Search">
+          <button class="btn btn-outline-light rounded-pill" type="submit">Ara</button>
+        </form>
+        <button id="dark-mode-toggle" class="btn btn-outline-light ms-3">
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Canlı Saat ve Tarih -->
+  <div class="live-clock" id="liveClock">
+    <span id="date"></span>
+    <span id="clock"></span>
+  </div>
+
+  <!-- Main Container -->
+  <div class="main-container">
+    <section class="container">
+      <h2 class="text-center mb-4">Ankara'da Gezilecek Yerler</h2>
+      <div class="row">
+        <!-- Anıtkabir -->
+        <div class="col-md-4">
+          <div class="place-card">
+            <img src="anıt.jpg" alt="Anıtkabir">
+            <div class="card-content">
+              <h3>Anıtkabir</h3>
+              <p>Mustafa Kemal Atatürk'ün ebedi istirahatgahı.</p>
+              <button class="favorite-btn" onclick="toggleFavorite(this)">
+                <i class="fas fa-heart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ankara Kalesi -->
+        <div class="col-md-4">
+          <div class="place-card">
+            <img src="ankkale.jpg" alt="Ankara Kalesi">
+            <div class="card-content">
+              <h3>Ankara Kalesi</h3>
+              <p>Ankara'nın tarihi simgesi.</p>
+              <button class="favorite-btn" onclick="toggleFavorite(this)">
+                <i class="fas fa-heart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Etnografya Müzesi -->
+        <div class="col-md-4">
+          <div class="place-card">
+            <img src="etno.png" alt="Etnografya Müzesi">
+            <div class="card-content">
+              <h3>Etnografya Müzesi</h3>
+              <p>Türk kültürünün izlerini taşıyan bir müze.</p>
+              <button class="favorite-btn" onclick="toggleFavorite(this)">
+                <i class="fas fa-heart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gençlik Parkı -->
+        <div class="col-md-4">
+          <div class="place-card">
+            <img src="genc.jpg" alt="Gençlik Parkı">
+            <div class="card-content">
+              <h3>Gençlik Parkı</h3>
+              <p>Ankara'nın en büyük parklarından biri.</p>
+              <button class="favorite-btn" onclick="toggleFavorite(this)">
+                <i class="fas fa-heart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kocatepe Camii -->
+        <div class="col-md-4">
+          <div class="place-card">
+            <img src="kocatepe.jpg" alt="Kocatepe Camii">
+            <div class="card-content">
+              <h3>Kocatepe Camii</h3>
+              <p>Ankara'nın en büyük camisi.</p>
+              <button class="favorite-btn" onclick="toggleFavorite(this)">
+                <i class="fas fa-heart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Atakule -->
+        <div class="col-md-4">
+          <div class="place-card">
+            <img src="atakule.jpg" alt="Atakule">
+            <div class="card-content">
+              <h3>Atakule</h3>
+              <p>Ankara'nın simgesel kulesi.</p>
+              <button class="favorite-btn" onclick="toggleFavorite(this)">
+                <i class="fas fa-heart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      
+
+  <!-- Footer -->
+  <footer class="custom-footer">
+    <p>YAPAN: Yağız Samed Göktepe © 2025</p>
+    <p>Tüm hakları saklıdır</p>
+  </footer>
+
+  <!-- Scroll-to-Top Butonu -->
+  <div class="scroll-top" id="scrollTop">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <!-- Bildirim Kutusu -->
+  <div class="notification" id="notification">
+    <span id="notification-text"></span>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Dark Mode Toggle
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    darkModeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      darkModeToggle.querySelector('i').classList.toggle('fa-moon');
+      darkModeToggle.querySelector('i').classList.toggle('fa-sun');
+    });
+
+    // Canlı Saat ve Tarih
+    function updateClock() {
+      const now = new Date();
+      const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+
+      const date = now.toLocaleDateString('tr-TR', dateOptions);
+      const time = now.toLocaleTimeString('tr-TR', timeOptions);
+
+      document.getElementById('date').textContent = date;
+      document.getElementById('clock').textContent = time;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Favori Butonu İşlevselliği
+    function toggleFavorite(button) {
+      button.classList.toggle('active');
+      if (button.classList.contains('active')) {
+        showNotification('Favorilere eklendi!');
+      } else {
+        showNotification('Favorilerden kaldırıldı!');
+      }
+    }
+
+    // Scroll-to-Top Butonu
+    window.addEventListener('scroll', () => {
+      const scrollTop = document.getElementById('scrollTop');
+      if (window.scrollY > 300) {
+        scrollTop.classList.add('show');
+      } else {
+        scrollTop.classList.remove('show');
+      }
+    });
+
+    document.getElementById('scrollTop').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Bildirim Gösterme
+    function showNotification(message) {
+      const notification = document.getElementById('notification');
+      const notificationText = document.getElementById('notification-text');
+      notificationText.textContent = message;
+      notification.style.display = 'block';
+      setTimeout(() => {
+        notification.style.display = 'none';
+      }, 3000);
+    }
+
+    // Arama Çubuğu İşlevselliği
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', () => {
+      const searchTerm = searchInput.value.toLowerCase();
+      const cards = document.querySelectorAll('.place-card');
+      cards.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        if (title.includes(searchTerm)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
