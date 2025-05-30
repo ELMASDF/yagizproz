@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ankara - Türkiye'nin Başkenti</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      transition: all 0.3s;
+    }
+
+    /* Dark Mode */
+    .dark-mode {
+      background: #1a1a1a;
+      color: #fff;
+    }
+    .dark-mode .navbar-custom {
+      background: #2d2d2d;
+    }
+    .dark-mode .card {
+      background: #2d2d2d;
+      color: #fff;
+    }
+
+    /* Navbar */
+    .navbar-custom {
+      background: linear-gradient(45deg, #2c3e50, #34495e);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      transition: background 0.5s ease;
+    }
+    .navbar-brand img {
+  height: 40px; /* Logo yüksekliği */
+  margin-right: 10px; /* Logo ile metin arasındaki boşluk */
+}
+
+    .navbar-custom:hover {
+      background: linear-gradient(45deg, #34495e, #2c3e50);
+    }
+
+    .navbar-custom .nav-link {
+      color: #fff !important;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .navbar-custom .nav-link:hover {
+      color: #1abc9c !important;
+      transform: translateY(-2px);
+    }
+
+    .navbar-custom .dropdown-menu {
+      background: rgba(44, 62, 80, 0.9);
+      border: none;
+    }
+
+    .navbar-custom .dropdown-item {
+      color: #fff;
+      transition: background 0.3s ease;
+    }
+
+    .navbar-custom .dropdown-item:hover {
+      background: #1abc9c;
+      color: #fff;
+    }
+
+    .navbar-custom .btn-outline-light {
+      border-color: #fff;
+      color: #fff;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .navbar-custom .btn-outline-light:hover {
+      background: #1abc9c;
+      border-color: #1abc9c;
+      color: #fff;
+    }
+
+    /* Hareketli Saat */
+    .floating-time {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 25px;
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    /* Video Konteyneri */
+    .video-container {
+      position: relative;
+      width: 100%;
+      height: 50vh;
+      overflow: hidden;
+      margin-top: 0;
+    }
+
+    .video-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: blur(0px);
+    }
+
+    .overlay-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 3rem;
+      font-weight: bold;
+      text-align: center;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    }
+
+    /* Galeri */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      padding: 20px;
+    }
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      transition: transform 0.3s;
+    }
+    .gallery-item:hover {
+      transform: scale(1.05);
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .gallery-caption {
+      position: absolute;
+      bottom: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.8));
+      color: #fff;
+      width: 100%;
+      padding: 15px;
+      text-align: center;
+    }
+
+    /* Tarih Bölümü */
+    .history-section {
+      background: url('atakule.jpg') center/cover;
+      padding: 80px 20px;
+      position: relative;
+      margin: 40px 0;
+    }
+    .history-content {
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* Harita */
+    .compact-map {
+      height: 300px;
+      border-radius: 15px;
+      overflow: hidden;
+      margin: 20px 0;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    /* Footer */
+    .custom-footer {
+      background: #2c3e50;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    /* Ekstra Özellikler */
+    .feature-card {
+      background: #fff;
+      border-radius: 15px;
+      padding: 20px;
+      margin: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+    .scroll-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #1abc9c;
+      color: #fff;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: all 0.3s;
+    }
+
+    /* Yeni Eklenen Özellikler */
+    .weather-widget {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      padding: 20px;
+      margin: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+/* Haber Kartları */
+.news-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  margin: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+  background: #fff;
+  cursor: pointer;
+}
+
+.news-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.news-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 15px 15px 0 0;
+}
+
+.news-card .card-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.news-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+.news-card p {
+  font-size: 1rem;
+  color: #7f8c8d;
+  margin-bottom: 15px;
+}
+
+.news-card .details {
+  display: none;
+  padding: 20px;
+  background: rgba(44, 62, 80, 0.9);
+  color: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.news-card:hover .details {
+  opacity: 1;
+}
+
+.news-card .details h4 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.news-card .details p {
+  font-size: 1rem;
+  margin-bottom: 15px;
+}
+
+.news-card .details a {
+  color: #1abc9c;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.news-card .details a:hover {
+  text-decoration: underline;
+}
+
+.news-card .favorite-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.news-card .favorite-btn:hover {
+  background: rgba(255, 59, 48, 0.8);
+}
+
+.news-card .favorite-btn i {
+  color: #ff3b30;
+  font-size: 1.2rem;
+}
+
+.news-card .favorite-btn.active i {
+  color: #fff;
+}
+  </style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+  <div class="container">
+    <a class="navbar-brand text-white" href="index.html">
+      <img src="logo.jpg" alt="Ankara Logo"> <!-- logo.jpg eklendi -->
+      <span style="font-weight: bold;">ANKARA</span> <!-- Kalın yazı -->
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link text-white" href="tarih.html">Tarih</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="gezilecek.html">Gezilecek Yerler</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="index.html">Ana Sayfa</a></li>
+      </ul>
+      <!-- Arama Kutusu ve Butonu -->
+      <form class="d-flex ms-3" id="search-form">
+        <input class="form-control me-2 rounded-pill" type="search" id="search-input" placeholder="Ara" aria-label="Search">
+        <button class="btn btn-outline-light rounded-pill" type="submit">Ara</button>
+      </form>
+      <button id="dark-mode-toggle" class="btn btn-outline-light ms-3">
+        <i class="fas fa-moon"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+  <!-- Hareketli Saat -->
+  <div class="floating-time">
+    <span id="live-clock"></span>
+  </div>
+
+  <!-- Video Konteyneri -->
+  <div class="video-container">
+    <video id="background-video" autoplay muted loop>
+      <source src="ankara.mp4" type="video/mp4">
+      Tarayıcınız video etiketini desteklemiyor.
+    </video>
+    <div class="overlay-text">
+      Türkiye'nin Başkenti Ankara
+    </div>
+  </div>
+
+  <!-- Galeri -->
+  <section id="gezilecek" class="container mt-5">
+    <h2 class="text-center mb-4">Ankara'da Gezilecek Yerler</h2>
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <img src="anıt.jpg" alt="Mekan 1">
+        <div class="gallery-caption">Anıtkabir</div>
+      </div>
+      <div class="gallery-item">
+        <img src="ankkale.jpg" alt="Mekan 2">
+        <div class="gallery-caption">Ankara Kalesi</div>
+      </div>
+      <div class="gallery-item">
+        <img src="etno.png" alt="Mekan 3">
+        <div class="gallery-caption">Etnografya Müzesi</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tarih Bölümü -->
+  <section id="tarih" class="history-section">
+    <div class="history-content">
+      <h2>Ankara'nın Tarihi Mirası</h2>
+      <div class="row">
+        <div class="col-md-6">
+          <p>Ankara'nın tarihi Bronz Çağı'na kadar uzanır. Hititler, Frigler, Romalılar ve Bizanslılar gibi birçok medeniyete ev sahipliği yapmıştır.</p>
+        </div>
+        <div class="col-md-6">
+          <p>1923'ten beri Türkiye Cumhuriyeti'nin başkenti olan Ankara, modern Türkiye'nin kuruluşunda önemli bir rol oynamıştır.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Harita -->
+  <div class="container">
+    <div class="compact-map">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d195884.207275344!2d32.62267910937499!3d39.90355519999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14d347d520732db1%3A0xbdc57b0c0842b8d!2sAnkara!5e0!3m2!1str!2str!4v1697212345678" 
+              width="100%" 
+              height="100%" 
+              style="border:0;" 
+              allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- Yeni Eklenen Özellikler -->
+  <div id="ww_337ad1c03f30f" v='1.3' loc='id' a='{"t":"responsive","lang":"tr","sl_lpl":1,"ids":["wl5910"],"font":"Arial","sl_ics":"one_a","sl_sot":"celsius","cl_bkg":"#303F9F","cl_font":"#FFFFFF","cl_cloud":"#FFFFFF","cl_persp":"#81D4FA","cl_sun":"#FFC107","cl_moon":"#FFC107","cl_thund":"#FF5722","cl_odd":"#0000000a"}'>Daha fazla hava durumu tahmini: <a href="https://oneweather.org/tr/istanbul/15_days/" id="ww_337ad1c03f30f_u" target="_blank">İstanbul hava durumu 15 günlük</a></div><script async src="https://app3.weatherwidget.org/js/?id=ww_337ad1c03f30f"></script>
+
+ <!-- Haberler Bölümü -->
+<section class="news-section">
+  <div class="container">
+    <h2 class="text-center mb-4">Son Haberler</h2>
+    <div class="row">
+      <!-- Haber 1 -->
+      <div class="col-md-4">
+        <div class="news-card">
+          <img src="kültür.webp" alt="Yeni Kültür Merkezi">
+          <div class="card-content">
+            <h3>Ankara'da Yeni Kültür Merkezi</h3>
+            <p class="short-description">Ankara'da yeni bir kültür merkezi açıldı. Detaylar için tıklayın.</p>
+          </div>
+          <div class="details">
+            <h4>Ankara'da Yeni Kültür Merkezi</h4>
+            <p>Ankara'nın merkezinde yeni bir kültür merkezi açıldı. Bu merkez, sanatseverlere modern bir ortam sunuyor. Açılış törenine birçok ünlü isim katıldı.</p>
+            <a href="#" class="news-link">Devamını Oku <i class="fas fa-arrow-right"></i></a>
+          </div>
+          <button class="favorite-btn" onclick="toggleFavorite(this)">
+            <i class="fas fa-heart"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Haber 2 -->
+      <div class="col-md-4">
+        <div class="news-card">
+          <img src="traf.jpg" alt="Trafik Düzenlemesi">
+          <div class="card-content">
+            <h3>Trafik Düzenlemesi</h3>
+            <p class="short-description">Ankara'da trafik düzenlemesi yapılıyor. Detaylar için tıklayın.</p>
+          </div>
+          <div class="details">
+            <h4>Trafik Düzenlemesi</h4>
+            <p>Ankara Büyükşehir Belediyesi, şehir merkezindeki trafik sorununu çözmek için yeni bir düzenleme başlattı. Bu düzenleme, özellikle yoğun saatlerde trafiği rahatlatmayı hedefliyor.</p>
+            <a href="#" class="news-link">Devamını Oku <i class="fas fa-arrow-right"></i></a>
+          </div>
+          <button class="favorite-btn" onclick="toggleFavorite(this)">
+            <i class="fas fa-heart"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Haber 3 -->
+      <div class="col-md-4">
+        <div class="news-card">
+          <img src="aoc.jpg" alt="Yeni Park Projesi">
+          <div class="card-content">
+            <h3>Yeni Park Projesi</h3>
+            <p class="short-description">Ankara'da yeni bir park projesi başlatıldı. Detaylar için tıklayın.</p>
+          </div>
+          <div class="details">
+            <h4>Yeni Park Projesi</h4>
+            <p>Ankara'nın yeşil alanlarını artırmak için yeni bir park projesi başlatıldı. Bu proje, şehirde yaşayanlar için daha fazla dinlenme alanı sunmayı amaçlıyor.</p>
+            <a href="#" class="news-link">Devamını Oku <i class="fas fa-arrow-right"></i></a>
+          </div>
+          <button class="favorite-btn" onclick="toggleFavorite(this)">
+            <i class="fas fa-heart"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- Footer -->
+  <footer class="custom-footer">
+    <p>YAPAN: Yağız Samed Göktepe © 2025</p>
+    <p>Tüm hakları saklıdır</p>
+  </footer>
+
+  <!-- Scroll to Top -->
+  <div class="scroll-top" id="scrollTop">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Dark Mode
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    darkModeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      darkModeToggle.querySelector('i').classList.toggle('fa-sun');
+    });
+
+    // Hareketli Saat
+    function updateTime() {
+      const now = new Date();
+      const options = {   
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      };
+      document.getElementById('live-clock').textContent = now.toLocaleDateString('tr-TR', options);
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    // Scroll to Top
+    window.addEventListener('scroll', () => {
+      const scrollTop = document.getElementById('scrollTop');
+      if (window.scrollY > 300) {
+        scrollTop.style.opacity = '1';
+      } else {
+        scrollTop.style.opacity = '0';
+      }
+    });
+
+    document.getElementById('scrollTop').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Galeri Lightbox
+    document.querySelectorAll('.gallery-item img').forEach(img => {
+      img.addEventListener('click', () => {
+        const lightbox = document.createElement('div');
+        lightbox.style = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(0,0,0,0.8);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 9999;
+          cursor: pointer;
+        `;
+        lightbox.innerHTML = `<img src="${img.src}" style="max-width: 90%; max-height: 90%; border-radius: 10px;">`;
+        lightbox.addEventListener('click', () => lightbox.remove());
+        document.body.appendChild(lightbox);
+      });
+    });
+
+    // Arama Formu İşlevselliği
+    document.getElementById('search-form').addEventListener('submit', function (event) {
+      event.preventDefault(); // Formun varsayılan davranışını engelle
+
+      const searchTerm = document.getElementById('search-input').value.trim(); // Arama metnini al
+      if (searchTerm) {
+        // Arama işlemini gerçekleştir
+        performSearch(searchTerm);
+      } else {
+        alert('Lütfen bir arama terimi girin.'); // Boş arama uyarısı
+      }
+    });
+
+    function performSearch(searchTerm) {
+      console.log('Aranan terim:', searchTerm);
+
+      // Örnek: Sayfadaki içeriklerde arama yapma
+      const pageContent = document.body.innerText.toLowerCase(); // Sayfanın tüm metnini al
+      if (pageContent.includes(searchTerm.toLowerCase())) {
+        alert(`"${searchTerm}" bulundu!`);
+        // Bulunan terimi vurgula veya ilgili bölüme git
+      } else {
+        alert(`"${searchTerm}" bulunamadı.`);
+      }
+    }
+// Favori butonu işlevselliği
+function toggleFavorite(button) {
+  button.classList.toggle('active');
+  if (button.classList.contains('active')) {
+    alert('Favorilere eklendi!');
+  } else {
+    alert('Favorilerden kaldırıldı!');
+  }
+}
+    // Hava Durumu Bilgisi
+    const weatherInfo = document.getElementById('weather-info');
+    fetch('https://api.openweathermap.org/data/2.5/weather?q=Ankara&appid=YOUR_API_KEY&units=metric&lang=tr')
+      .then(response => response.json())
+      .then(data => {
+        weatherInfo.innerHTML = `
+          <p>Sıcaklık: ${data.main.temp}°C</p>
+          <p>Hava Durumu: ${data.weather[0].description}</p>
+        `;
+      })
+      .catch(() => {
+        weatherInfo.innerHTML = 'Hava durumu bilgisi alınamadı.';
+      });
+  </script>
+</body>
+</html>
